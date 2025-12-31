@@ -163,7 +163,7 @@
         <p class="subtitle">Find all possible anagrams from your letters</p>
 
         <div id="loading-message" style="text-align: center; color: #667eea; margin-bottom: 20px; font-weight: 600;">
-            Loading dictionary (275k+ English words)...
+            Loading dictionary (370k+ English words)...
         </div>
 
         <div class="input-group">
@@ -194,9 +194,10 @@
         // Load word list on page load
         async function loadDictionary() {
             try {
-                // Using an-array-of-english-words npm package (275k+ words) via CDN
-                const response = await fetch('https://unpkg.com/an-array-of-english-words@2.1.0/index.json');
-                dictionary = await response.json();
+                // Using comprehensive English words list (370k+ words) from GitHub
+                const response = await fetch('https://raw.githubusercontent.com/dwyl/english-words/master/words_alpha.txt');
+                const text = await response.text();
+                dictionary = text.split('\n').map(word => word.trim()).filter(word => word.length > 0);
                 dictionaryLoaded = true;
                 document.getElementById('loading-message').style.display = 'none';
                 document.getElementById('letters').disabled = false;
@@ -204,20 +205,7 @@
                 console.log(`Loaded ${dictionary.length} English words`);
             } catch (error) {
                 console.error('Failed to load dictionary:', error);
-                // Fallback to text file method
-                try {
-                    const response = await fetch('https://raw.githubusercontent.com/dwyl/english-words/master/words_alpha.txt');
-                    const text = await response.text();
-                    dictionary = text.split('\n').map(word => word.trim()).filter(word => word.length > 0);
-                    dictionaryLoaded = true;
-                    document.getElementById('loading-message').style.display = 'none';
-                    document.getElementById('letters').disabled = false;
-                    document.getElementById('solve-button').disabled = false;
-                    console.log(`Loaded ${dictionary.length} words (fallback)`);
-                } catch (fallbackError) {
-                    console.error('Fallback also failed:', fallbackError);
-                    alert('Failed to load word dictionary. Please refresh the page.');
-                }
+                alert('Failed to load word dictionary. Please check your internet connection and refresh the page.');
             }
         }
 
