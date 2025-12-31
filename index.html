@@ -177,7 +177,7 @@
             >
         </div>
 
-        <button onclick="solveAnagram()" disabled>Find Anagrams</button>
+        <button id="solve-button" disabled>Find Anagrams</button>
 
         <div id="results" class="results hidden">
             <div class="results-header">Anagrams Found:</div>
@@ -186,7 +186,7 @@
         </div>
     </div>
 
-    <script type="module">
+    <script>
         // Load comprehensive English word list using an-array-of-english-words library
         let dictionary = [];
         let dictionaryLoaded = false;
@@ -200,7 +200,7 @@
                 dictionaryLoaded = true;
                 document.getElementById('loading-message').style.display = 'none';
                 document.getElementById('letters').disabled = false;
-                document.querySelector('button').disabled = false;
+                document.getElementById('solve-button').disabled = false;
                 console.log(`Loaded ${dictionary.length} English words`);
             } catch (error) {
                 console.error('Failed to load dictionary:', error);
@@ -212,7 +212,7 @@
                     dictionaryLoaded = true;
                     document.getElementById('loading-message').style.display = 'none';
                     document.getElementById('letters').disabled = false;
-                    document.querySelector('button').disabled = false;
+                    document.getElementById('solve-button').disabled = false;
                     console.log(`Loaded ${dictionary.length} words (fallback)`);
                 } catch (fallbackError) {
                     console.error('Fallback also failed:', fallbackError);
@@ -352,6 +352,9 @@
                 solveAnagram();
             }
         });
+
+        // Attach button click event
+        document.getElementById('solve-button').addEventListener('click', solveAnagram);
     </script>
 </body>
 </html>
